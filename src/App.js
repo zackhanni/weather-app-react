@@ -2,38 +2,76 @@ import React, {useState} from "react";
 import axios from "axios";
 
 function App() {
-  // const lonLat = "http://api.openweathermap.org/geo/1.0/direct?q=London&limit=1&appid=5b0ea1f33262ab853ddea80cb83bdaa3"
-  // const url = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=5b0ea1f33262ab853ddea80cb83bdaa3"
+  const [data, setData] = useState({})
+  const [location, setLocation] = useState('')
+  const [coords, setCoords] = useState({})
+
+  const longLat = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=5b0ea1f33262ab853ddea80cb83bdaa3`
+  const searchLocation = async (event) => {
+    if (event.key === 'Enter') {
+
+      const response1 = await axios.get(longLat);
+      const coords = response1.data[0]
+
+      const response2 = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=5b0ea1f33262ab853ddea80cb83bdaa3`)
+
+      setCoords(coords)
+      setData(response2.data)
+      setLocation('')
+    }
+  }
+
 
   return (
     <div className="app">
-        <div className="container">
-          <div className="top">
-            <div className="location">
-              <p>London</p>
-            </div>
-            <div className="temp">
-              <h2>65 degrees</h2>
-            </div>
-            <div className="description">
-              <p>Cloudy with a chance of code</p>
-            </div>
+      <div className="search">
+        <input 
+          value={location} 
+          onChange={event => setLocation(event.target.value)}
+          onKeyUp={searchLocation} //check that onKeyUp works
+          placeholder="Search a location..."
+          type="text" />
+
+      </div>
+      <div className="container">
+        <div className="top">
+          <div className="location">
+            <p>{data.name}</p>
           </div>
+          <div className="temp">
+            {data.main ? <h2>{data.main.temp}°F</h2> : null}
+          </div>
+          <div className="description">
+          {data.weather ? <p>{data.weather[0].main}</p> : null}
+          </div>
+        </div>
+
+ 
           <div className="bottom">
             <div className="feels">
-              <p className="bold">65 degrees</p>
+            {data.main ? <p className="bold">{data.main.feels_like}°F</p> : null}
               <p>Feeks Like</p>
             </div>
+            <div className="high">
+            {data.main ? <p className="bold">{data.main.temp_max}°F</p> : null}
+              <p>High</p>
+            </div>
+            <div className="low">
+            {data.main ? <p className="bold">{data.main.temp_min}°F</p> : null}
+              <p>Low</p>
+            </div>
             <div className="humidity">
-            <p className="bold">20%</p>
+            {data.main ? <p className="bold">{data.main.humidity}%</p> : null}
             <p>Humidity</p>
             </div>
             <div className="wind">
-            <p className="bold">12 MPH</p>
+            {data.wind ? <p className="bold">{data.wind.speed}MPH</p> : null}
               <p>Wind Speed</p>
             </div>
           </div>
-        </div>
+
+
+      </div>
     </div>
   );
 }
