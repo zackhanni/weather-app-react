@@ -1,5 +1,10 @@
+import React, {useState} from "react";
+import axios from "axios";
 
 function App() {
+  // const lonLat = "http://api.openweathermap.org/geo/1.0/direct?q=London&limit=1&appid=5b0ea1f33262ab853ddea80cb83bdaa3"
+  // const url = "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid=5b0ea1f33262ab853ddea80cb83bdaa3"
+
   return (
     <div className="app">
         <div className="container">
