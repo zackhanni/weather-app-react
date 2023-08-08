@@ -13,7 +13,7 @@ function App() {
       const response1 = await axios.get(longLat);
       const coords = response1.data[0]
 
-      const response2 = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&appid=5b0ea1f33262ab853ddea80cb83bdaa3`)
+      const response2 = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${coords.lat}&lon=${coords.lon}&units=imperial&appid=5b0ea1f33262ab853ddea80cb83bdaa3`)
 
       setCoords(coords)
       setData(response2.data)
@@ -33,31 +33,32 @@ function App() {
           type="text" />
 
       </div>
-      <div className="container">
-        <div className="top">
-          <div className="location">
-            <p>{data.name}</p>
-          </div>
-          <div className="temp">
-            {data.main ? <h2>{data.main.temp}°F</h2> : null}
-          </div>
-          <div className="description">
-          {data.weather ? <p>{data.weather[0].main}</p> : null}
-          </div>
-        </div>
+      {data.name !== undefined &&
+        <div className="container">
 
- 
+          <div className="top">
+            <div className="location">
+              <p>{data.name}, {coords.country}</p>
+            </div>
+            <div className="temp">
+              {data.main ? <h2>{data.main.temp.toFixed()}°F</h2> : null}
+            </div>
+            <div className="description">
+            {data.weather ? <p>{data.weather[0].main}</p> : null}
+            </div>
+          </div>
+
           <div className="bottom">
             <div className="feels">
-            {data.main ? <p className="bold">{data.main.feels_like}°F</p> : null}
+            {data.main ? <p className="bold">{data.main.feels_like.toFixed()}°F</p> : null}
               <p>Feeks Like</p>
             </div>
             <div className="high">
-            {data.main ? <p className="bold">{data.main.temp_max}°F</p> : null}
+            {data.main ? <p className="bold">{data.main.temp_max.toFixed()}°F</p> : null}
               <p>High</p>
             </div>
             <div className="low">
-            {data.main ? <p className="bold">{data.main.temp_min}°F</p> : null}
+            {data.main ? <p className="bold">{data.main.temp_min.toFixed()}°F</p> : null}
               <p>Low</p>
             </div>
             <div className="humidity">
@@ -65,13 +66,13 @@ function App() {
             <p>Humidity</p>
             </div>
             <div className="wind">
-            {data.wind ? <p className="bold">{data.wind.speed}MPH</p> : null}
+            {data.wind ? <p className="bold">{data.wind.speed} M/H</p> : null}
               <p>Wind Speed</p>
             </div>
           </div>
 
-
-      </div>
+        </div>
+      }
     </div>
   );
 }
