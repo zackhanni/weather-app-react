@@ -72,6 +72,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 #### MORE TO DO!
 
-move search bar down
-fix crashes on empty search and searches with no city
-change background depending on temp/ description
+- move search bar down
+- fix crashes on empty search and searches with no city
+- change background depending on temp/ description (keep it paper looking)
+- chance of rain and when
+- adding the time of the location searched
+
+
